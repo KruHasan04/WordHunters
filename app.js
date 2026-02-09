@@ -57,7 +57,7 @@ const $$ = (sel) => document.querySelectorAll(sel);
 let gameState = {
   board: [], currentTeam: "red", phase: "clue", redRemaining: 0, blueRemaining: 0,
   firstTeam: "red", currentClue: null, guessesRemaining: 0, clueHistory: [],
-  gameOver: false, winner: null, winReason: "", spymasterView: false,
+  gameOver: false, winner: null, winReason: "", guiderView: false,
 };
 
 // Mode: "local" or "online"
@@ -66,7 +66,7 @@ let gameMode = "local";
 let gameVariant = "classic";
 // Online player info
 let myTeam = null;   // "red" or "blue"
-let myRole = null;   // "spymaster" or "agent"
+let myRole = null;   // "guider" or "guesser"
 let currentRoomCode = null;
 let roomUnsubscribe = null;
 let playersUnsubscribe = null;
@@ -220,6 +220,15 @@ function showScreen(name) {
   else if (name === "game") gameScreen.classList.add("active");
   // Hide profile button on game screen to avoid overlap with header
   profileBtn.style.display = (name === "game") ? "none" : "";
+  // Refresh invite button states when screen changes
+  refreshInviteButtons();
+}
+
+function refreshInviteButtons() {
+  const inLobby = currentRoomCode && lobbyScreen.classList.contains("active");
+  document.querySelectorAll(".friend-invite-btn").forEach(btn => {
+    btn.disabled = !inLobby;
+  });
 }
 
 // ==================== COUNTDOWN ====================
@@ -800,7 +809,7 @@ function renderSlot(slotEl, player, team, role) {
     // Allow clicking to leave if it's me
     slotEl.onclick = isMe ? () => pickTeamRole(null, null) : null;
   } else {
-    slotEl.innerHTML = `<span class="slot-empty">Open</span>`;
+    slotEl.innerHTML = `<span class="slot-empty">Join</span>`;
     slotEl.classList.remove("slot-filled");
     slotEl.onclick = () => pickTeamRole(team, role);
   }
@@ -1065,10 +1074,17 @@ function listenToFriends() {
           (new Date() - (profileDoc.data().lastSeen.toDate ? profileDoc.data().lastSeen.toDate() : new Date(profileDoc.data().lastSeen))) / 1000 < 60;
         const el = document.createElement("div");
         el.className = "friend-item";
+        const inLobby = currentRoomCode && lobbyScreen.classList.contains("active");
         el.innerHTML = `
           <div class="friend-info"><span class="${isOnline ? "online-dot" : "offline-dot"}"></span><span class="friend-name">${data.friendUsername}</span></div>
-          <button class="friend-invite-btn" data-uid="${doc.id}" ${!currentRoomCode ? "disabled" : ""}>Invite</button>`;
-        el.querySelector(".friend-invite-btn").addEventListener("click", () => sendGameInvite(doc.id, data.friendUsername));
+          <button class="friend-invite-btn" data-uid="${doc.id}" ${!inLobby ? "disabled" : ""}>Invite</button>`;
+        el.querySelector(".friend-invite-btn").addEventListener("click", () => {
+          if (!currentRoomCode || !lobbyScreen.classList.contains("active")) {
+            alert("Create a game room first, then invite friends from the lobby!");
+            return;
+          }
+          sendGameInvite(doc.id, data.friendUsername);
+        });
         friendsList.appendChild(el);
       }
     });
@@ -1133,7 +1149,7 @@ async function searchUsers() {
 
 // ==================== GAME INVITES ====================
 async function sendGameInvite(toUid, toUsername) {
-  if (!currentUser || !currentUserProfile || !currentRoomCode) { alert("Create a game room first!"); return; }
+  if (!currentUser || !currentUserProfile || !currentRoomCode || !lobbyScreen.classList.contains("active")) { alert("Create a game room first, then invite friends from the lobby!"); return; }
   const existing = await window.db.collection("gameInvites").where("from", "==", currentUser.uid).where("to", "==", toUid).get();
   for (const doc of existing.docs) await doc.ref.delete();
   await window.db.collection("gameInvites").add({
