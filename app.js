@@ -1,47 +1,55 @@
-// ==================== OFFICIAL WORD LIST (400 words) ====================
+// ==================== WORD LIST (450 words) ====================
 const WORDLIST = [
-  "Africa","Agent","Air","Alien","Alps","Amazon","Ambulance","America","Angel","Antarctica",
-  "Apple","Arm","Atlantis","Australia","Aztec","Back","Ball","Band","Bank","Bar","Bark",
-  "Bat","Battery","Beach","Bear","Beat","Bed","Beijing","Bell","Belt","Berlin","Bermuda",
-  "Berry","Bill","Block","Board","Bolt","Bomb","Bond","Boom","Boot","Bottle","Bow","Box",
-  "Bridge","Brush","Buck","Buffalo","Bug","Bugle","Button","Calf","Canada","Cap","Capital",
-  "Car","Card","Carrot","Casino","Cast","Cat","Cell","Centaur","Center","Chair","Change",
-  "Charge","Check","Chest","Chick","China","Chocolate","Church","Circle","Cliff","Cloak",
-  "Club","Code","Cold","Comic","Compound","Concert","Conductor","Contract","Cook","Copper",
-  "Cotton","Court","Cover","Crane","Crash","Cricket","Cross","Crown","Cycle","Czech",
-  "Dance","Date","Day","Death","Deck","Degree","Diamond","Dice","Dinosaur","Disease",
-  "Doctor","Dog","Draft","Dragon","Dress","Drill","Drop","Duck","Dwarf","Eagle","Egypt",
-  "Embassy","Engine","England","Europe","Eye","Face","Fair","Fall","Fan","Fence","Field",
-  "Fighter","Figure","File","Film","Fire","Fish","Flute","Fly","Foot","Force","Forest",
-  "Fork","France","Game","Gas","Genius","Germany","Ghost","Giant","Glass","Glove","Gold",
-  "Grace","Grass","Greece","Green","Ground","Ham","Hand","Hawk","Head","Heart","Helicopter",
-  "Himalayas","Hole","Hollywood","Honey","Hood","Hook","Horn","Horse","Horseshoe","Hospital",
-  "Hotel","Ice","Ice Cream","India","Iron","Ivory","Jack","Jam","Jet","Jupiter","Kangaroo",
-  "Ketchup","Key","Kid","King","Kiwi","Knife","Knight","Lab","Lap","Laser","Lawyer","Lead",
-  "Lemon","Leprechaun","Life","Light","Limousine","Line","Link","Lion","Litter","Loch Ness",
-  "Lock","Log","London","Luck","Mail","Mammoth","Maple","Marble","March","Mass","Match",
-  "Mercury","Mexico","Microscope","Millionaire","Mine","Mint","Missile","Model","Mole",
-  "Moon","Moscow","Mount","Mouse","Mouth","Mug","Nail","Needle","Net","New York","Night",
-  "Ninja","Note","Novel","Nurse","Nut","Octopus","Oil","Olive","Olympus","Opera","Orange",
-  "Organ","Palm","Pan","Pants","Paper","Parachute","Park","Part","Pass","Paste","Penguin",
-  "Phoenix","Piano","Pie","Pilot","Pin","Pipe","Pirate","Pistol","Pit","Pitch","Plane",
-  "Plastic","Plate","Platypus","Play","Plot","Point","Poison","Pole","Police","Pool","Port",
-  "Post","Pound","Press","Princess","Pumpkin","Pupil","Pyramid","Queen","Rabbit","Racket",
-  "Ray","Revolution","Ring","Robin","Robot","Rock","Rome","Root","Rose","Roulette","Round",
-  "Row","Ruler","Satellite","Saturn","Scale","School","Scientist","Scorpion","Screen",
-  "Scuba Diver","Seal","Server","Shadow","Shakespeare","Shark","Ship","Shoe","Shop","Shot",
-  "Sink","Skyscraper","Slip","Slug","Smuggler","Snow","Snowman","Sock","Soldier","Soul",
-  "Sound","Space","Spell","Spider","Spike","Spine","Spot","Spring","Spy","Square","Stadium",
-  "Staff","Star","State","Stick","Stock","Straw","Stream","Strike","String","Sub","Suit",
-  "Superhero","Swing","Switch","Table","Tablet","Tag","Tail","Tap","Teacher","Telescope",
-  "Temple","Theater","Thief","Thumb","Tick","Tie","Time","Tokyo","Tooth","Torch","Tower",
-  "Track","Train","Triangle","Trip","Trunk","Tube","Turkey","Undertaker","Unicorn","Vacuum",
-  "Van","Vet","Wake","Wall","War","Washer","Washington","Watch","Water","Wave","Web","Well",
-  "Whale","Whip","Wind","Witch","Worm","Yard",
+  "Alaska","Alien","Ally","Amsterdam","Anchor","Angel","Arctic","Armor","Arrow","Asgard",
+  "Athens","Axe","Baby","Backpack","Bacon","Balloon","Band","Bandit","Bank","Bar",
+  "Barrel","Basket","Bat","Bath","Bathtub","Bee","Beef","Beer","Bench","Bet",
+  "Bicycle","Bird","Blanket","Blast","Block","Bluff","Board","Bomb","Bond","Bone",
+  "Brain","Brazil","Bread","Bridge","Broccoli","Bronze","Bubble","Bucket","Bug","Bull",
+  "Bullet","Bus","Butter","Cabinet","Cage","Cake","Camel","Camp","Candle","Cannon",
+  "Canyon","Captain","Car","Card","Cave","Center","Chain","Charm","Chase","Cheese",
+  "Cherry","Chess","Chest","Chicago","Chin","Church","Circle","Clash","Clock","Cloud",
+  "Club","Coach","Coast","Cobra","Cocoa","Code","Coffee","Coin","Cold","Comic",
+  "Compass","Computer","Concert","Cookie","Copper","Coral","Corn","Corner","Court","Cove",
+  "Cow","Cowboy","Craft","Cream","Creek","Crow","Crown","Cuba","Cup","Curse",
+  "Darwin","Dawn","Debt","Deer","Deport","Desk","Diamond","Dolphin","Door","Dragon",
+  "Dress","Drift","Drink","Drum","Dublin","Duel","Duke","Dust","Ear","Earth",
+  "Echo","Edge","Egg","Elbow","Engine","Envelope","Falcon","Family","Farmer","Fate",
+  "Feast","Film","Fire","Flag","Flame","Flash","Floor","Flower","Fog","Fold",
+  "Food","Football","Fox","Fraud","Fridge","Frost","Galileo","Garage","Garden","Garlic",
+  "Gas","Gear","Ghost","Giant","Gift","Glacier","Globe","Glove","Goat","Gold",
+  "Golf","Gorilla","Gossip","Guard","Hammer","Hammock","Hat","Hawaii","Heaven","Helicopter",
+  "Hell","Helmet","High","Hill","Hip","Home","Hook","Horn","Hunter","Ireland",
+  "Iron","Island","Istanbul","Jacket","Jaguar","Jail","Jamaica","Jaw","Jeans","Jester",
+  "Jet","Judge","Jungle","Key","Keyboard","King","Kitchen","Kite","Knee","Knife",
+  "Lab","Ladder","Lake","Lamp","Lantern","Laser","Lasso","Leaf","Letter","Library",
+  "Life","Light","Lime","Limo","Lip","Lock","Love","Lunch","Lung","Mail",
+  "Market","Mask","Meat","Medal","Microscope","Mine","Miner","Miracle","Mirror","Money",
+  "Monk","Monkey","Mountain","Mouse","Nail","Napoleon","Neck","Needle","Neighbor","Nepal",
+  "Net","Newspaper","Night","Nightmare","Nose","Note","Office","Onion","Opera","Orchard",
+  "Otter","Owl","Pacific","Paint","Pan","Paper","Paris","Parrot","Party","Path",
+  "Peace","Peach","Peasant","Pencil","Phone","Photo","Piano","Pillow","Pin","Pirate",
+  "Pizza","Plane","Plastic","Plate","Pluto","Pocket","Poison","Police","Pond","Pool",
+  "Post","Poster","Potato","Press","Pride","Quiet","Quest","Rabbit","Race","Racket",
+  "Rain","Rebel","Revenge","Rib","Ring","River","Road","Robot","Roof","Room",
+  "Root","Rope","Round","Ruler","Sahara","Salt","Samurai","Sand","Satellite","Scissors",
+  "Scorpion","Screen","Shadow","Shark","Sheep","Shield","Ship","Shirt","Shoe","Shop",
+  "Shower","Sign","Signal","Sink","Skate","Skeleton","Sky","Slap","Sleep","Smoke",
+  "Soap","Sock","Sofa","Sound","Soup","Space","Speed","Spell","Spider","Spike",
+  "Spine","Spoon","Spot","Square","Star","Stick","Store","Street","Stress","Sugar",
+  "Suit","Sun","Sword","Switch","Table","Tank","Taxi","Teacher","Teeth","Telescope",
+  "Temple","Tent","Theater","Ticket","Tide","Time","Toilet","Tomato","Tool","Torch",
+  "Tower","Towel","Toy","Train","Tree","Triangle","Trip","Trophy","Truck","Tube",
+  "Turkey","Umbrella","Unicorn","Uniform","Vacuum","Valley","Van","Vegetable","Venice","Vet",
+  "Viking","Village","Visor","Wall","Watch","Water","Wave","Web","Well","Wheel",
+  "Wife","Window","Winter","Wire","Witch","Wolf","Wood","Wrist","Yellow","Yogurt",
+  "Zebra","Zoo","Italy","Cargo","Rocket",
+  "Spider-Man","Batman","Rihanna","Messi","Ronaldo","Titanic","Matrix","Yoda","Minecraft","Fortnite",
+  "Pokemon","Rocky","Lost","Mario","Joker","GTA","Zombie","Oscar","Apple","Thor",
+  "Sherlock","Shakira","Amazon","Sonic","Pitbull",
 ];
 const WORDS = [...new Set(WORDLIST.map(w => w.toUpperCase()))];
 
-const CARD_TYPE = { RED: "red", BLUE: "blue", BYSTANDER: "bystander", ASSASSIN: "assassin" };
+const CARD_TYPE = { RED: "red", BLUE: "blue", BYSTANDER: "bystander", DEATH_RED: "death_red", DEATH_BLUE: "death_blue" };
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -54,6 +62,8 @@ let gameState = {
 
 // Mode: "local" or "online"
 let gameMode = "local";
+// Game variant: "classic" or "sudden"
+let gameVariant = "classic";
 // Online player info
 let myTeam = null;   // "red" or "blue"
 let myRole = null;   // "spymaster" or "agent"
@@ -96,6 +106,11 @@ const spymasterLabel = $("#spymasterLabel");
 const roleBadge = $("#roleBadge");
 const roleBadgeText = $("#roleBadgeText");
 const menuBtn = $("#menuBtn");
+
+// Countdown
+const countdownOverlay = $("#countdownOverlay");
+const countdownMessage = $("#countdownMessage");
+const countdownNumber = $("#countdownNumber");
 
 // Turn Bar
 const turnBar = $("#turnBar");
@@ -166,13 +181,25 @@ function generateRoomCode() {
   return code;
 }
 
-function generateBoard(firstTeam) {
-  const words = shuffle(WORDS).slice(0, 25);
+function generateBoard(firstTeam, variant) {
+  const words = shuffle(WORDS).slice(0, 30);
   const secondTeam = firstTeam === "red" ? "blue" : "red";
-  const types = shuffle([
-    ...Array(9).fill(firstTeam), ...Array(8).fill(secondTeam),
-    ...Array(7).fill(CARD_TYPE.BYSTANDER), CARD_TYPE.ASSASSIN,
-  ]);
+  let types;
+  if (variant === "sudden") {
+    // Sudden Death: 10 first, 9 second, 5 bystanders, 3 red death, 3 blue death
+    types = shuffle([
+      ...Array(10).fill(firstTeam), ...Array(9).fill(secondTeam),
+      ...Array(5).fill(CARD_TYPE.BYSTANDER),
+      ...Array(3).fill(CARD_TYPE.DEATH_RED), ...Array(3).fill(CARD_TYPE.DEATH_BLUE),
+    ]);
+  } else {
+    // Classic: 10 first, 9 second, 9 bystanders, 1 red death, 1 blue death
+    types = shuffle([
+      ...Array(10).fill(firstTeam), ...Array(9).fill(secondTeam),
+      ...Array(9).fill(CARD_TYPE.BYSTANDER),
+      CARD_TYPE.DEATH_RED, CARD_TYPE.DEATH_BLUE,
+    ]);
+  }
   return words.map((word, i) => ({ word, type: types[i], revealed: false }));
 }
 
@@ -191,6 +218,30 @@ function showScreen(name) {
   else if (name === "localSetup") localSetupScreen.classList.add("active");
   else if (name === "lobby") lobbyScreen.classList.add("active");
   else if (name === "game") gameScreen.classList.add("active");
+  // Hide profile button on game screen to avoid overlap with header
+  profileBtn.style.display = (name === "game") ? "none" : "";
+}
+
+// ==================== COUNTDOWN ====================
+function showCountdown(team, callback) {
+  const teamLabel = team === "red"
+    ? '<span class="team-name-red">Red</span>'
+    : '<span class="team-name-blue">Blue</span>';
+  countdownMessage.innerHTML = `The cards will be revealed.<br>Pass the phone to the ${teamLabel} Guider.`;
+  let seconds = 5;
+  countdownNumber.textContent = seconds;
+  countdownOverlay.classList.add("active");
+
+  const interval = setInterval(() => {
+    seconds--;
+    if (seconds > 0) {
+      countdownNumber.textContent = seconds;
+    } else {
+      clearInterval(interval);
+      countdownOverlay.classList.remove("active");
+      callback();
+    }
+  }, 1000);
 }
 
 // ==================== LOCAL GAME ====================
@@ -199,7 +250,7 @@ function startLocalGame() {
   myTeam = null; myRole = null;
   let firstTeam = firstTeamSelect.value;
   if (firstTeam === "random") firstTeam = Math.random() < 0.5 ? "red" : "blue";
-  const board = generateBoard(firstTeam);
+  const board = generateBoard(firstTeam, gameVariant);
   const rem = countRemaining(board);
   gameState = {
     board, currentTeam: firstTeam, phase: "clue", redRemaining: rem.red,
@@ -209,19 +260,19 @@ function startLocalGame() {
   spymasterToggle.style.display = "flex";
   roleBadge.style.display = "none";
   showScreen("game");
-  renderAll();
+  showCountdown(firstTeam, () => renderAll());
 }
 
 function startQuickLocalGame() {
   const firstTeam = Math.random() < 0.5 ? "red" : "blue";
-  const board = generateBoard(firstTeam);
+  const board = generateBoard(firstTeam, gameVariant);
   const rem = countRemaining(board);
   gameState = {
     board, currentTeam: firstTeam, phase: "clue", redRemaining: rem.red,
     blueRemaining: rem.blue, firstTeam, currentClue: null, guessesRemaining: 0,
     clueHistory: [], gameOver: false, winner: null, winReason: "", spymasterView: false,
   };
-  renderAll();
+  showCountdown(firstTeam, () => renderAll());
 }
 
 // ==================== ONLINE ROOM MANAGEMENT ====================
@@ -229,16 +280,18 @@ async function createRoom() {
   if (!currentUser) { authModal.classList.add("active"); return; }
   const code = generateRoomCode();
   const firstTeam = Math.random() < 0.5 ? "red" : "blue";
-  const board = generateBoard(firstTeam);
+  const board = generateBoard(firstTeam, gameVariant);
 
+  const rem = countRemaining(board);
   await window.db.collection("codenamesRooms").doc(code).set({
     hostId: currentUser.uid,
     phase: "lobby",
     firstTeam,
+    gameVariant,
     board: board.map(c => ({ word: c.word, type: c.type, revealed: false })),
     currentTeam: firstTeam,
-    redRemaining: 9,
-    blueRemaining: 8,
+    redRemaining: rem.red,
+    blueRemaining: rem.blue,
     currentClue: null,
     guessesRemaining: 0,
     clueHistory: [],
@@ -348,7 +401,7 @@ function listenToRoom(code) {
         spymasterToggle.style.display = "none";
         roleBadge.style.display = "flex";
         const teamLabel = myTeam === "red" ? "Red" : "Blue";
-        const roleLabel = myRole === "spymaster" ? "Spymaster" : "Agent";
+        const roleLabel = myRole === "spymaster" ? "Guider" : "Guesser";
         roleBadgeText.textContent = `${teamLabel} ${roleLabel}`;
         roleBadge.className = `role-badge role-badge-${myTeam}`;
         showScreen("game");
@@ -405,11 +458,28 @@ async function startOnlineGame() {
   const redAgents = roomPlayers.filter(p => p.team === "red" && p.role === "agent");
   const blueAgents = roomPlayers.filter(p => p.team === "blue" && p.role === "agent");
 
-  if (!redSpy || !blueSpy) { alert("Each team needs a Spymaster."); return; }
+  if (!redSpy || !blueSpy) { alert("Each team needs a Guider."); return; }
   if (redAgents.length === 0 || blueAgents.length === 0) { alert("Each team needs at least one Agent."); return; }
+
+  // Regenerate board with selected variant
+  const firstTeam = Math.random() < 0.5 ? "red" : "blue";
+  const board = generateBoard(firstTeam, gameVariant);
+  const rem = countRemaining(board);
 
   await window.db.collection("codenamesRooms").doc(currentRoomCode).update({
     phase: "clue",
+    firstTeam,
+    board: board.map(c => ({ word: c.word, type: c.type, revealed: false })),
+    currentTeam: firstTeam,
+    redRemaining: rem.red,
+    blueRemaining: rem.blue,
+    gameVariant,
+    currentClue: null,
+    guessesRemaining: 0,
+    clueHistory: [],
+    gameOver: false,
+    winner: null,
+    winReason: "",
   });
 }
 
@@ -437,16 +507,28 @@ async function onlineRevealCard(index) {
   const rem = countRemaining(board);
   const updates = { board, redRemaining: rem.red, blueRemaining: rem.blue };
 
-  // Check assassin
-  if (card.type === CARD_TYPE.ASSASSIN) {
-    const loser = gameState.currentTeam;
-    const winner = loser === "red" ? "blue" : "red";
-    updates.gameOver = true;
-    updates.winner = winner;
-    updates.winReason = `${loser === "red" ? "Red" : "Blue"} Team hit the assassin!`;
-    updates.phase = "gameOver";
-    await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
-    return;
+  // Check death cards
+  const currentTeam = gameState.currentTeam;
+  if (card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE) {
+    const deathBelongsTo = card.type === CARD_TYPE.DEATH_RED ? "red" : "blue";
+    if (currentTeam === deathBelongsTo) {
+      // Team picked their own death card — they lose!
+      const winner = currentTeam === "red" ? "blue" : "red";
+      updates.gameOver = true;
+      updates.winner = winner;
+      updates.winReason = `${currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`;
+      updates.phase = "gameOver";
+      await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+      return;
+    } else {
+      // Opposing team picked this death card — neutralize it, end turn
+      updates.currentTeam = currentTeam === "red" ? "blue" : "red";
+      updates.phase = "clue";
+      updates.currentClue = null;
+      updates.guessesRemaining = 0;
+      await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+      return;
+    }
   }
 
   // Check win
@@ -464,12 +546,12 @@ async function onlineRevealCard(index) {
   }
 
   // Correct guess?
-  if (card.type === gameState.currentTeam) {
+  if (card.type === currentTeam) {
     let gr = gameState.guessesRemaining;
     if (gr !== 999) gr--;
     if (gr === 0) {
       // Used all guesses - end turn
-      updates.currentTeam = gameState.currentTeam === "red" ? "blue" : "red";
+      updates.currentTeam = currentTeam === "red" ? "blue" : "red";
       updates.phase = "clue";
       updates.currentClue = null;
       updates.guessesRemaining = 0;
@@ -478,7 +560,7 @@ async function onlineRevealCard(index) {
     }
   } else {
     // Wrong - end turn
-    updates.currentTeam = gameState.currentTeam === "red" ? "blue" : "red";
+    updates.currentTeam = currentTeam === "red" ? "blue" : "red";
     updates.phase = "clue";
     updates.currentClue = null;
     updates.guessesRemaining = 0;
@@ -499,6 +581,10 @@ async function onlineEndTurn() {
 
 // ==================== RENDERING ====================
 function renderAll() {
+  // In local mode, sync guider view to phase before rendering board
+  if (gameMode === "local" && !gameState.gameOver) {
+    gameState.spymasterView = (gameState.phase === "clue");
+  }
   renderBoard();
   renderScores();
   renderTurnBar();
@@ -535,7 +621,8 @@ function renderBoard() {
     if (card.revealed) {
       const iconEl = document.createElement("div");
       iconEl.className = "card-reveal-icon";
-      iconEl.innerHTML = card.type === CARD_TYPE.ASSASSIN
+      const isDeath = card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE;
+      iconEl.innerHTML = isDeath
         ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`
         : `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
       cardEl.appendChild(iconEl);
@@ -585,14 +672,14 @@ function renderTurnBar() {
 
   if (gameState.phase === "clue") {
     if (canGiveClue) {
-      turnText.textContent = `${teamName} Spymaster — Give a Clue`;
+      turnText.textContent = `${teamName} Guider — Give a Clue`;
       clueInputArea.style.display = "flex";
       clueDisplay.style.display = "none";
       endTurnBtn.style.display = "none";
       clueInput.value = "";
       clueCountInput.value = "";
     } else {
-      turnText.textContent = `Waiting for ${teamName} Spymaster...`;
+      turnText.textContent = `Waiting for ${teamName} Guider...`;
       clueInputArea.style.display = "none";
       clueDisplay.style.display = "none";
       endTurnBtn.style.display = "none";
@@ -621,8 +708,19 @@ function renderTurnBar() {
   // Spymaster toggle for local mode
   if (gameMode === "local") {
     spymasterToggle.style.display = "flex";
-    spymasterToggle.classList.toggle("active", gameState.spymasterView);
-    spymasterLabel.textContent = gameState.spymasterView ? "Hide Key" : "Spymaster";
+    if (gameState.phase === "clue") {
+      // Clue phase: guider view available
+      spymasterToggle.classList.toggle("active", gameState.spymasterView);
+      spymasterToggle.disabled = false;
+      spymasterToggle.style.opacity = "1";
+      spymasterLabel.textContent = gameState.spymasterView ? "Hide Key" : "Guider";
+    } else {
+      // Guess phase: guider view locked
+      spymasterToggle.classList.remove("active");
+      spymasterToggle.disabled = true;
+      spymasterToggle.style.opacity = "0.4";
+      spymasterLabel.textContent = "Locked";
+    }
   }
 }
 
@@ -648,8 +746,8 @@ function renderGameOver() {
   gameOverTitle.textContent = `${teamName} Wins!`;
   gameOverTitle.style.color = color;
   gameOverMessage.textContent = gameState.winReason;
-  const isAssassin = gameState.winReason.includes("assassin");
-  gameOverIcon.innerHTML = `<svg width="64" height="64" viewBox="0 0 24 24" fill="${color}"><path d="${isAssassin
+  const isDeathCard = gameState.winReason.includes("Death Card");
+  gameOverIcon.innerHTML = `<svg width="64" height="64" viewBox="0 0 24 24" fill="${color}"><path d="${isDeathCard
     ? "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
     : "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
   }"/></svg>`;
@@ -710,20 +808,23 @@ function renderSlot(slotEl, player, team, role) {
 
 function renderAgentList(listEl, agents, team) {
   listEl.innerHTML = "";
-  agents.forEach(p => {
+  if (agents.length > 0) {
+    // Show the single guesser
+    const p = agents[0];
     const isMe = currentUser && p.uid === currentUser.uid;
     const div = document.createElement("div");
     div.className = `lobby-slot lobby-slot-agent slot-filled`;
     div.innerHTML = `<span class="slot-player ${isMe ? "slot-me" : ""}">${p.username}${isMe ? " (you)" : ""}</span>`;
     if (isMe) div.onclick = () => pickTeamRole(null, null);
     listEl.appendChild(div);
-  });
-  // Add "join" slot
-  const joinSlot = document.createElement("div");
-  joinSlot.className = "lobby-slot lobby-slot-agent";
-  joinSlot.innerHTML = `<span class="slot-empty">+ Join</span>`;
-  joinSlot.onclick = () => pickTeamRole(team, "agent");
-  listEl.appendChild(joinSlot);
+  } else {
+    // Show "join" slot only if no guesser yet
+    const joinSlot = document.createElement("div");
+    joinSlot.className = "lobby-slot lobby-slot-agent";
+    joinSlot.innerHTML = `<span class="slot-empty">+ Join</span>`;
+    joinSlot.onclick = () => pickTeamRole(team, "agent");
+    listEl.appendChild(joinSlot);
+  }
 }
 
 // ==================== GAME LOGIC ====================
@@ -740,12 +841,22 @@ function handleCardClick(index) {
 
   // Local mode
   card.revealed = true;
-  if (card.type === CARD_TYPE.ASSASSIN) {
-    const loser = gameState.currentTeam;
-    const winner = loser === "red" ? "blue" : "red";
-    endGame(winner, `${loser === "red" ? "Red" : "Blue"} Team hit the assassin!`);
-    return;
+
+  // Check death cards
+  if (card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE) {
+    const deathBelongsTo = card.type === CARD_TYPE.DEATH_RED ? "red" : "blue";
+    if (gameState.currentTeam === deathBelongsTo) {
+      // Team picked their own death card — they lose!
+      const winner = gameState.currentTeam === "red" ? "blue" : "red";
+      endGame(winner, `${gameState.currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`);
+      return;
+    } else {
+      // Opposing team picked this death card — neutralize it, end turn
+      endTurn();
+      return;
+    }
   }
+
   if (card.type === CARD_TYPE.RED) gameState.redRemaining--;
   if (card.type === CARD_TYPE.BLUE) gameState.blueRemaining--;
   if (gameState.redRemaining === 0) { endGame("red", "Red Team found all their agents!"); return; }
@@ -793,7 +904,8 @@ function endTurn() {
   gameState.currentClue = null;
   gameState.guessesRemaining = 0;
   gameState.spymasterView = false;
-  renderAll();
+  // Show countdown so phone can be passed to the next guider
+  showCountdown(gameState.currentTeam, () => renderAll());
 }
 
 function endGame(winner, reason) {
@@ -1066,7 +1178,36 @@ inviteDeclineBtn.addEventListener("click", async () => {
 createGameBtn.addEventListener("click", createRoom);
 joinGameBtn.addEventListener("click", () => joinRoom(joinCodeInput.value));
 joinCodeInput.addEventListener("keypress", (e) => { if (e.key === "Enter") joinRoom(joinCodeInput.value); });
-playLocalBtn.addEventListener("click", () => showScreen("localSetup"));
+// Local mode popup
+const localModePopup = $("#localModePopup");
+const localClassicBtn = $("#localClassicBtn");
+const localSuddenBtn = $("#localSuddenBtn");
+
+playLocalBtn.addEventListener("click", () => {
+  localModePopup.classList.toggle("active");
+});
+localClassicBtn.addEventListener("click", () => {
+  gameVariant = "classic";
+  localModePopup.classList.remove("active");
+  showScreen("localSetup");
+});
+localSuddenBtn.addEventListener("click", () => {
+  gameVariant = "sudden";
+  localModePopup.classList.remove("active");
+  showScreen("localSetup");
+});
+
+// Lobby mode selector
+const lobbyModeSelector = $("#lobbyModeSelector");
+if (lobbyModeSelector) {
+  lobbyModeSelector.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      lobbyModeSelector.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      gameVariant = btn.dataset.mode;
+    });
+  });
+}
 startLocalBtn.addEventListener("click", startLocalGame);
 backToMainBtn.addEventListener("click", () => showScreen("setup"));
 
@@ -1082,8 +1223,11 @@ endTurnBtn.addEventListener("click", endTurn);
 
 spymasterToggle.addEventListener("click", () => {
   if (gameState.gameOver || gameMode !== "local") return;
+  if (gameState.phase === "guess") return; // Locked during guess phase
   gameState.spymasterView = !gameState.spymasterView;
-  renderAll();
+  renderBoard();
+  spymasterToggle.classList.toggle("active", gameState.spymasterView);
+  spymasterLabel.textContent = gameState.spymasterView ? "Hide Key" : "Guider";
 });
 
 // Side Menu

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Codenames</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>WordHunter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -66,7 +66,7 @@
   <!-- ==================== INVITE NOTIFICATION ==================== -->
   <div class="invite-notification" id="inviteNotification">
     <div class="invite-content">
-      <p class="invite-text"><span id="inviteFromUser">User</span> invited you to play Codenames</p>
+      <p class="invite-text"><span id="inviteFromUser">User</span> invited you to play WordHunter</p>
       <div class="invite-actions">
         <button class="invite-accept" id="inviteAcceptBtn">Join</button>
         <button class="invite-decline" id="inviteDeclineBtn">Decline</button>
@@ -81,8 +81,8 @@
         <div class="logo-icon">
           <span class="logo-crosshair"></span>
         </div>
-        <h1 class="logo-title">CODENAMES</h1>
-        <p class="logo-subtitle">Top Secret Word Game</p>
+        <h1 class="logo-title">WORDHUNTER</h1>
+        <p class="logo-subtitle">The Ultimate Word Game</p>
       </div>
 
       <div class="setup-card">
@@ -93,18 +93,25 @@
           <button class="btn-join" id="joinGameBtn">JOIN</button>
         </div>
         <div class="setup-divider"><span>or</span></div>
-        <button class="btn-secondary" id="playLocalBtn">PLAY LOCALLY</button>
+        <div class="local-play-wrapper">
+          <button class="btn-secondary" id="playLocalBtn">PLAY LOCALLY</button>
+          <div class="mode-popup" id="localModePopup">
+            <div class="mode-popup-label">Select Mode</div>
+            <button class="mode-popup-btn" data-mode="classic" id="localClassicBtn">Classic<span class="mode-popup-desc">2 Death Cards</span></button>
+            <button class="mode-popup-btn" data-mode="sudden" id="localSuddenBtn">Sudden Death<span class="mode-popup-desc">6 Death Cards</span></button>
+          </div>
+        </div>
       </div>
 
       <div class="how-to-play">
         <button class="how-to-play-toggle" id="howToPlayToggle">How to Play</button>
         <div class="how-to-play-content" id="howToPlayContent">
           <ol>
-            <li><strong>Split into teams.</strong> Each team picks a Spymaster who can see the key card.</li>
-            <li><strong>Spymaster gives a clue:</strong> one word + a number (how many cards relate to it).</li>
+            <li><strong>Split into teams.</strong> Each team picks a Guider who can see the key card.</li>
+            <li><strong>Guider gives a clue:</strong> one word + a number (how many cards relate to it).</li>
             <li><strong>Team guesses</strong> by tapping cards. Correct = keep going. Wrong = turn ends.</li>
-            <li><strong>Avoid the assassin!</strong> Touching it means instant loss.</li>
-            <li><strong>First team to find all their agents wins.</strong></li>
+            <li><strong>Watch out for Death Cards!</strong> Each team has their own — if you pick yours, you lose instantly. If you pick the enemy's, their Death Card is neutralized.</li>
+            <li><strong>First team to find all their words wins.</strong></li>
           </ol>
         </div>
       </div>
@@ -116,7 +123,7 @@
     <div class="setup-container">
       <div class="logo">
         <div class="logo-icon"><span class="logo-crosshair"></span></div>
-        <h1 class="logo-title">CODENAMES</h1>
+        <h1 class="logo-title">WORDHUNTER</h1>
         <p class="logo-subtitle">Local Game</p>
       </div>
       <div class="setup-card">
@@ -157,13 +164,13 @@
             <span>Red Team</span>
           </div>
           <div class="lobby-role-section">
-            <div class="lobby-role-label">SPYMASTER</div>
+            <div class="lobby-role-label">GUIDER</div>
             <div class="lobby-slot lobby-slot-spymaster" id="redSpymasterSlot" data-team="red" data-role="spymaster">
               <span class="slot-empty">Open</span>
             </div>
           </div>
           <div class="lobby-role-section">
-            <div class="lobby-role-label">AGENTS</div>
+            <div class="lobby-role-label">GUESSER</div>
             <div class="lobby-agents-list" id="redAgentsList">
               <div class="lobby-slot lobby-slot-agent" data-team="red" data-role="agent">
                 <span class="slot-empty">+ Join</span>
@@ -179,19 +186,27 @@
             <span>Blue Team</span>
           </div>
           <div class="lobby-role-section">
-            <div class="lobby-role-label">SPYMASTER</div>
+            <div class="lobby-role-label">GUIDER</div>
             <div class="lobby-slot lobby-slot-spymaster" id="blueSpymasterSlot" data-team="blue" data-role="spymaster">
               <span class="slot-empty">Open</span>
             </div>
           </div>
           <div class="lobby-role-section">
-            <div class="lobby-role-label">AGENTS</div>
+            <div class="lobby-role-label">GUESSER</div>
             <div class="lobby-agents-list" id="blueAgentsList">
               <div class="lobby-slot lobby-slot-agent" data-team="blue" data-role="agent">
                 <span class="slot-empty">+ Join</span>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="lobby-mode-selector">
+        <div class="lobby-mode-label">Game Mode</div>
+        <div class="mode-selector" id="lobbyModeSelector">
+          <button class="mode-btn active" data-mode="classic">Classic</button>
+          <button class="mode-btn" data-mode="sudden">Sudden Death</button>
         </div>
       </div>
 
@@ -209,7 +224,7 @@
         <button class="btn-icon" id="menuBtn" title="Menu">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
-        <div class="header-title">CODENAMES</div>
+        <div class="header-title">WORDHUNTER</div>
       </div>
       <div class="header-center">
         <div class="score-bar">
@@ -230,7 +245,7 @@
         </div>
         <button class="btn-spymaster" id="spymasterToggle" style="display:none;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span id="spymasterLabel">Spymaster</span>
+          <span id="spymasterLabel">Guider</span>
         </button>
       </div>
     </header>
@@ -268,6 +283,14 @@
           <button class="btn-primary" id="playAgainBtn">Play Again</button>
           <button class="btn-secondary" id="backToMenuBtn">Main Menu</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+      <div class="countdown-card">
+        <div class="countdown-message" id="countdownMessage">Pass the phone to the Guider</div>
+        <div class="countdown-number" id="countdownNumber">5</div>
       </div>
     </div>
 
