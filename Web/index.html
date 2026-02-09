@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>WordHunter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ==================== PROFILE BUTTON (fixed) ==================== -->
+  <button class="profile-btn" id="profileBtn">
+    <span class="profile-icon" id="profileIcon">Sign in</span>
+  </button>
+
+  <!-- ==================== AUTH MODAL ==================== -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-content auth-modal">
+      <button class="modal-close" id="authModalClose">&times;</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Login</button>
+        <button class="auth-tab" data-tab="signup">Sign Up</button>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit" class="auth-submit">Login</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button type="button" id="googleSignInBtn" class="google-btn">Sign in with Google</button>
+        <p class="auth-error" id="loginError"></p>
+      </form>
+      <form id="signupForm" class="auth-form" style="display: none;">
+        <input type="text" id="signupUsername" placeholder="Username (3-15 chars)" required pattern="[a-zA-Z0-9_]{3,15}" />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" required minlength="6" />
+        <button type="submit" class="auth-submit">Sign Up</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button type="button" id="googleSignUpBtn" class="google-btn">Sign up with Google</button>
+        <p class="auth-error" id="signupError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== FRIENDS POPUP ==================== -->
+  <div class="friends-popup" id="friendsPopup">
+    <div class="friends-header">
+      <span class="friends-username" id="friendsUsername">Username</span>
+      <button class="friends-signout" id="signOutBtn">Sign Out</button>
+    </div>
+    <div class="friends-search">
+      <input type="text" id="friendSearchInput" placeholder="Search username..." />
+      <button id="friendSearchBtn">Search</button>
+    </div>
+    <div class="friends-search-result" id="friendSearchResult"></div>
+    <div class="friends-tabs">
+      <button class="friends-tab active" data-tab="friends">Friends</button>
+      <button class="friends-tab" data-tab="requests">Requests <span id="requestCount"></span></button>
+    </div>
+    <div class="friends-list" id="friendsList"></div>
+    <div class="requests-list" id="requestsList" style="display: none;"></div>
+  </div>
+
+  <!-- ==================== INVITE NOTIFICATION ==================== -->
+  <div class="invite-notification" id="inviteNotification">
+    <div class="invite-content">
+      <p class="invite-text"><span id="inviteFromUser">User</span> invited you to play WordHunter</p>
+      <div class="invite-actions">
+        <button class="invite-accept" id="inviteAcceptBtn">Join</button>
+        <button class="invite-decline" id="inviteDeclineBtn">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SETUP SCREEN ==================== -->
+  <div class="screen setup-screen active" id="setupScreen">
+    <div class="setup-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <span class="logo-crosshair"></span>
+        </div>
+        <h1 class="logo-title">WORDHUNTER</h1>
+        <p class="logo-subtitle">The Ultimate Word Game</p>
+      </div>
+
+      <div class="setup-card">
+        <h2>Online Game</h2>
+        <button class="btn-primary btn-start" id="createGameBtn">CREATE GAME</button>
+        <div class="join-game-row">
+          <input type="text" id="joinCodeInput" class="join-code-input" placeholder="ROOM CODE" maxlength="6" />
+          <button class="btn-join" id="joinGameBtn">JOIN</button>
+        </div>
+        <div class="setup-divider"><span>or</span></div>
+        <div class="local-play-wrapper">
+          <button class="btn-secondary" id="playLocalBtn">PLAY LOCALLY</button>
+          <div class="mode-popup" id="localModePopup">
+            <div class="mode-popup-label">Select Mode</div>
+            <button class="mode-popup-btn" data-mode="classic" id="localClassicBtn">Classic<span class="mode-popup-desc">2 Death Cards</span></button>
+            <button class="mode-popup-btn" data-mode="sudden" id="localSuddenBtn">Sudden Death<span class="mode-popup-desc">6 Death Cards</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-to-play">
+        <button class="how-to-play-toggle" id="howToPlayToggle">How to Play</button>
+        <div class="how-to-play-content" id="howToPlayContent">
+          <ol>
+            <li><strong>Split into teams.</strong> Each team picks a Guider who can see the key card.</li>
+            <li><strong>Guider gives a clue:</strong> one word + a number (how many cards relate to it).</li>
+            <li><strong>Team guesses</strong> by tapping cards. Correct = keep going. Wrong = turn ends.</li>
+            <li><strong>Watch out for Death Cards!</strong> Each team has their own — if you pick yours, you lose instantly. If you pick the enemy's, their Death Card is neutralized.</li>
+            <li><strong>First team to find all their words wins.</strong></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOCAL SETUP SCREEN ==================== -->
+  <div class="screen setup-screen" id="localSetupScreen">
+    <div class="setup-container">
+      <div class="logo">
+        <div class="logo-icon"><span class="logo-crosshair"></span></div>
+        <h1 class="logo-title">WORDHUNTER</h1>
+        <p class="logo-subtitle">Local Game</p>
+      </div>
+      <div class="setup-card">
+        <h2>Local Game Settings</h2>
+        <div class="setup-option">
+          <label for="firstTeamSelect">First Team</label>
+          <select id="firstTeamSelect">
+            <option value="random">Random</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+          </select>
+        </div>
+        <button class="btn-primary btn-start" id="startLocalBtn">START LOCAL GAME</button>
+        <button class="btn-secondary" id="backToMainBtn">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOBBY SCREEN ==================== -->
+  <div class="screen lobby-screen" id="lobbyScreen">
+    <div class="lobby-container">
+      <div class="lobby-header">
+        <button class="btn-icon" id="lobbyBackBtn" title="Leave Room">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="lobby-title">GAME LOBBY</div>
+        <div class="lobby-code-box">
+          <span class="lobby-code-label">Room Code</span>
+          <span class="lobby-code" id="lobbyCode">------</span>
+        </div>
+      </div>
+
+      <div class="lobby-teams">
+        <!-- Red Team -->
+        <div class="lobby-team lobby-team-red">
+          <div class="lobby-team-header">
+            <div class="team-color-dot red"></div>
+            <span>Red Team</span>
+          </div>
+          <div class="lobby-role-section">
+            <div class="lobby-role-label">GUIDER</div>
+            <div class="lobby-slot lobby-slot-spymaster" id="redSpymasterSlot" data-team="red" data-role="spymaster">
+              <span class="slot-empty">Open</span>
+            </div>
+          </div>
+          <div class="lobby-role-section">
+            <div class="lobby-role-label">GUESSER</div>
+            <div class="lobby-agents-list" id="redAgentsList">
+              <div class="lobby-slot lobby-slot-agent" data-team="red" data-role="agent">
+                <span class="slot-empty">+ Join</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blue Team -->
+        <div class="lobby-team lobby-team-blue">
+          <div class="lobby-team-header">
+            <div class="team-color-dot blue"></div>
+            <span>Blue Team</span>
+          </div>
+          <div class="lobby-role-section">
+            <div class="lobby-role-label">GUIDER</div>
+            <div class="lobby-slot lobby-slot-spymaster" id="blueSpymasterSlot" data-team="blue" data-role="spymaster">
+              <span class="slot-empty">Open</span>
+            </div>
+          </div>
+          <div class="lobby-role-section">
+            <div class="lobby-role-label">GUESSER</div>
+            <div class="lobby-agents-list" id="blueAgentsList">
+              <div class="lobby-slot lobby-slot-agent" data-team="blue" data-role="agent">
+                <span class="slot-empty">+ Join</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lobby-mode-selector">
+        <div class="lobby-mode-label">Game Mode</div>
+        <div class="mode-selector" id="lobbyModeSelector">
+          <button class="mode-btn active" data-mode="classic">Classic</button>
+          <button class="mode-btn" data-mode="sudden">Sudden Death</button>
+        </div>
+      </div>
+
+      <div class="lobby-footer">
+        <div class="lobby-status" id="lobbyStatus">Waiting for players to pick teams...</div>
+        <button class="btn-primary" id="startOnlineGameBtn" disabled>START GAME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== GAME SCREEN ==================== -->
+  <div class="screen game-screen" id="gameScreen">
+    <header class="game-header">
+      <div class="header-left">
+        <button class="btn-icon" id="menuBtn" title="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="header-title">WORDHUNTER</div>
+      </div>
+      <div class="header-center">
+        <div class="score-bar">
+          <div class="score-team score-red">
+            <span class="score-count" id="redScore">9</span>
+            <span class="score-label">RED</span>
+          </div>
+          <div class="score-divider">-</div>
+          <div class="score-team score-blue">
+            <span class="score-count" id="blueScore">8</span>
+            <span class="score-label">BLUE</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="role-badge" id="roleBadge" style="display:none;">
+          <span id="roleBadgeText"></span>
+        </div>
+        <button class="btn-spymaster" id="spymasterToggle" style="display:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span id="spymasterLabel">Guider</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="turn-bar" id="turnBar">
+      <div class="turn-indicator">
+        <div class="turn-dot" id="turnDot"></div>
+        <span class="turn-text" id="turnText">Red Team's Turn</span>
+      </div>
+      <div class="clue-area" id="clueArea">
+        <div class="clue-display" id="clueDisplay" style="display:none;">
+          <span class="clue-word" id="clueWord"></span>
+          <span class="clue-number" id="clueNumber"></span>
+          <span class="guesses-left" id="guessesLeft"></span>
+        </div>
+        <div class="clue-input-area" id="clueInputArea">
+          <input type="text" class="clue-input" id="clueInput" placeholder="Enter clue word..." maxlength="30" />
+          <input type="number" class="clue-count-input" id="clueCountInput" placeholder="#" min="0" max="9" />
+          <button class="btn-give-clue" id="giveClueBtn">Give Clue</button>
+        </div>
+      </div>
+      <button class="btn-end-turn" id="endTurnBtn" style="display:none;">End Turn</button>
+    </div>
+
+    <div class="board-container">
+      <div class="board" id="gameBoard"></div>
+    </div>
+
+    <div class="game-over-overlay" id="gameOverOverlay">
+      <div class="game-over-card">
+        <div class="game-over-icon" id="gameOverIcon"></div>
+        <h2 class="game-over-title" id="gameOverTitle">Game Over</h2>
+        <p class="game-over-message" id="gameOverMessage"></p>
+        <div class="game-over-actions">
+          <button class="btn-primary" id="playAgainBtn">Play Again</button>
+          <button class="btn-secondary" id="backToMenuBtn">Main Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+      <div class="countdown-card">
+        <div class="countdown-message" id="countdownMessage">Pass the phone to the Guider</div>
+        <div class="countdown-number" id="countdownNumber">5</div>
+      </div>
+    </div>
+
+    <div class="side-menu-overlay" id="sideMenuOverlay">
+      <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+          <h3>Game Menu</h3>
+          <button class="btn-icon" id="closeSideMenu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="side-menu-body">
+          <button class="side-menu-item" id="sideNewGame">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            New Game
+          </button>
+          <button class="side-menu-item" id="sideMainMenu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            Main Menu
+          </button>
+          <hr class="side-menu-divider" />
+          <div class="side-menu-section">
+            <h4>Clue History</h4>
+            <div class="clue-log" id="clueLog">
+              <p class="clue-log-empty">No clues yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwQ7ijkKWiUJQWodwEsZGFZyBvJldOKVc",
+      authDomain: "zip-puzzle-41974.firebaseapp.com",
+      projectId: "zip-puzzle-41974",
+      storageBucket: "zip-puzzle-41974.firebasestorage.app",
+      messagingSenderId: "609566555035",
+      appId: "1:609566555035:web:d7894448072e98d96b7f3e",
+      measurementId: "G-G8NHM4NR6T"
+    };
+    firebase.initializeApp(firebaseConfig);
+    window.db = firebase.firestore();
+    window.auth = firebase.auth();
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
