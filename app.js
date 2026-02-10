@@ -49,7 +49,7 @@ const WORDLIST = [
 ];
 const WORDS = [...new Set(WORDLIST.map(w => w.toUpperCase()))];
 
-const CARD_TYPE = { RED: "red", BLUE: "blue", BYSTANDER: "bystander", DEATH_RED: "death_red", DEATH_BLUE: "death_blue" };
+const CARD_TYPE = { RED: "red", BLUE: "blue", PASSIVE: "passive", DEATH_RED: "death_red", DEATH_BLUE: "death_blue" };
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -194,17 +194,17 @@ function generateBoard(firstTeam, variant) {
   const secondTeam = firstTeam === "red" ? "blue" : "red";
   let types;
   if (variant === "sudden") {
-    // Sudden Death: 10 first, 9 second, 5 bystanders, 3 red death, 3 blue death
+    // Sudden Death: 10 first, 9 second, 5 passives, 3 red death, 3 blue death
     types = shuffle([
       ...Array(10).fill(firstTeam), ...Array(9).fill(secondTeam),
-      ...Array(5).fill(CARD_TYPE.BYSTANDER),
+      ...Array(5).fill(CARD_TYPE.PASSIVE),
       ...Array(3).fill(CARD_TYPE.DEATH_RED), ...Array(3).fill(CARD_TYPE.DEATH_BLUE),
     ]);
   } else {
-    // Classic: 10 first, 9 second, 9 bystanders, 1 red death, 1 blue death
+    // Classic: 10 first, 9 second, 9 passives, 1 red death, 1 blue death
     types = shuffle([
       ...Array(10).fill(firstTeam), ...Array(9).fill(secondTeam),
-      ...Array(9).fill(CARD_TYPE.BYSTANDER),
+      ...Array(9).fill(CARD_TYPE.PASSIVE),
       CARD_TYPE.DEATH_RED, CARD_TYPE.DEATH_BLUE,
     ]);
   }
@@ -592,7 +592,7 @@ async function onlineRevealCard(index) {
       await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
       return;
     } else {
-      // Opposing team picked this death card — neutralize it, end turn
+      // Opposing team picked this death card — passiveize it, end turn
       updates.currentTeam = currentTeam === "red" ? "blue" : "red";
       updates.phase = "clue";
       updates.currentClue = null;
@@ -915,31 +915,39 @@ function handleCardClick(index) {
   // Local mode
   card.revealed = true;
 
+  // Add flip animation to the clicked card element
+  const cardEl = gameBoard.children[index];
+  if (cardEl) cardEl.classList.add("card-flipping");
+
   // Check death cards
   if (card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE) {
     const deathBelongsTo = card.type === CARD_TYPE.DEATH_RED ? "red" : "blue";
     if (gameState.currentTeam === deathBelongsTo) {
       // Team picked their own death card — they lose!
       const winner = gameState.currentTeam === "red" ? "blue" : "red";
-      endGame(winner, `${gameState.currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`);
+      renderAll();
+      setTimeout(() => endGame(winner, `${gameState.currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`), 1200);
       return;
     } else {
-      // Opposing team picked this death card — neutralize it, end turn
-      endTurn();
+      // Opposing team picked this death card — show it, then end turn
+      renderAll();
+      setTimeout(() => endTurn(), 1200);
       return;
     }
   }
 
   if (card.type === CARD_TYPE.RED) gameState.redRemaining--;
   if (card.type === CARD_TYPE.BLUE) gameState.blueRemaining--;
-  if (gameState.redRemaining === 0) { endGame("red", "Red Team found all their agents!"); return; }
-  if (gameState.blueRemaining === 0) { endGame("blue", "Blue Team found all their agents!"); return; }
+  if (gameState.redRemaining === 0) { renderAll(); setTimeout(() => endGame("red", "Red Team found all their agents!"), 1200); return; }
+  if (gameState.blueRemaining === 0) { renderAll(); setTimeout(() => endGame("blue", "Blue Team found all their agents!"), 1200); return; }
   if (card.type === gameState.currentTeam) {
     if (gameState.guessesRemaining !== Infinity) gameState.guessesRemaining--;
-    if (gameState.guessesRemaining === 0) { endTurn(); return; }
+    if (gameState.guessesRemaining === 0) { renderAll(); setTimeout(() => endTurn(), 1200); return; }
     renderAll(); return;
   }
-  endTurn();
+  // Wrong card (passive or opponent's card) — reveal first, then end turn after delay
+  renderAll();
+  setTimeout(() => endTurn(), 1200);
 }
 
 function giveClue() {

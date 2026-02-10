@@ -6,7 +6,7 @@
   --red-bg: rgba(239, 68, 68, 0.15); --red-bg-solid: #301a1e;
   --blue: #3b8bff; --blue-light: #6db3ff; --blue-dark: #2468d4;
   --blue-bg: rgba(59, 139, 255, 0.15); --blue-bg-solid: #1a2030;
-  --bystander: #c9a258; --bystander-light: #e8c86e; --bystander-bg: rgba(201, 162, 88, 0.18);
+  --passive: #c9a258; --passive-light: #e8c86e; --passive-bg: rgba(201, 162, 88, 0.18);
   --death: #1a1a2e; --death-light: #333355;
   --bg-primary: #0c0e18; --bg-secondary: #141624; --bg-card: #1c1f34; --bg-elevated: #262a44;
   --text-primary: #eef0f6; --text-secondary: #9da2be; --text-muted: #636880;
@@ -512,8 +512,8 @@ html, body {
 .card.spy-blue { border-color: var(--blue); background: linear-gradient(135deg, rgba(59,139,255,0.35) 0%, rgba(59,139,255,0.15) 100%); }
 .card.spy-blue::after { content: ""; position: absolute; top: 4px; left: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--blue); opacity: 1; box-shadow: 0 0 8px rgba(59,139,255,0.6); }
 .card.spy-blue .card-word { color: #d0e4ff; }
-.card.spy-bystander { border-color: var(--bystander); background: linear-gradient(135deg, rgba(201,162,88,0.28) 0%, rgba(201,162,88,0.12) 100%); }
-.card.spy-bystander::after { content: ""; position: absolute; top: 4px; left: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--bystander); opacity: 0.85; }
+.card.spy-passive { border-color: var(--passive); background: linear-gradient(135deg, rgba(201,162,88,0.28) 0%, rgba(201,162,88,0.12) 100%); }
+.card.spy-passive::after { content: ""; position: absolute; top: 4px; left: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--passive); opacity: 0.85; }
 .card.spy-death_red {
   border-color: #ff2222;
   border-width: 2.5px;
@@ -545,13 +545,14 @@ html, body {
 .card.spy-death_blue .card-word { color: #4488ff; text-shadow: 0 0 10px rgba(68, 136, 255, 0.5); }
 
 /* Revealed */
-.card.revealed { cursor: default; transform: none; animation: cardReveal 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.card.revealed { cursor: default; transform: none; animation: cardFlipReveal 0.5s ease; }
+.card.card-flipping { animation: cardFlip 0.5s ease; pointer-events: none; }
 .card.revealed-red { background: linear-gradient(135deg, #f04555 0%, #c82333 100%); border-color: #f04555; box-shadow: 0 2px 16px rgba(239,68,68,0.4); }
 .card.revealed-red .card-word { color: white; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
 .card.revealed-blue { background: linear-gradient(135deg, #4a94ff 0%, #2468d4 100%); border-color: #4a94ff; box-shadow: 0 2px 16px rgba(59,139,255,0.4); }
 .card.revealed-blue .card-word { color: white; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-.card.revealed-bystander { background: linear-gradient(135deg, #c9a258 0%, #a07c3a 100%); border-color: #c9a258; opacity: 0.75; }
-.card.revealed-bystander .card-word { color: #fdf3dc; }
+.card.revealed-passive { background: linear-gradient(135deg, #c9a258 0%, #a07c3a 100%); border-color: #c9a258; opacity: 0.75; }
+.card.revealed-passive .card-word { color: #fdf3dc; }
 .card.revealed-death_red {
   background: #040404;
   border-color: #ff2222; border-width: 2.5px;
@@ -655,9 +656,20 @@ html, body {
 /* ==================== ANIMATIONS ==================== */
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 .shake { animation: shake 0.4s ease; }
-@keyframes cardReveal { 0% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes cardFlipReveal {
+  0% { transform: perspective(600px) rotateY(0deg); }
+  50% { transform: perspective(600px) rotateY(90deg); opacity: 0.6; }
+  51% { transform: perspective(600px) rotateY(90deg); opacity: 0.6; }
+  100% { transform: perspective(600px) rotateY(0deg); opacity: 1; }
+}
+@keyframes cardFlip {
+  0% { transform: perspective(600px) rotateY(0deg); }
+  50% { transform: perspective(600px) rotateY(90deg); opacity: 0.6; }
+  51% { transform: perspective(600px) rotateY(90deg); opacity: 0.6; }
+  100% { transform: perspective(600px) rotateY(0deg); opacity: 1; }
+}
 
-.board .card { animation: cardEntry 0.3s ease backwards; }
+.board .card:not(.revealed) { animation: cardEntry 0.3s ease backwards; }
 .board .card:nth-child(1)  { animation-delay: 0.02s; } .board .card:nth-child(2)  { animation-delay: 0.04s; }
 .board .card:nth-child(3)  { animation-delay: 0.06s; } .board .card:nth-child(4)  { animation-delay: 0.08s; }
 .board .card:nth-child(5)  { animation-delay: 0.10s; } .board .card:nth-child(6)  { animation-delay: 0.12s; }
@@ -724,7 +736,7 @@ html, body {
   .card-word { font-size: clamp(5px, 2.2vw, 9px); letter-spacing: 0; }
   .card-word-long { font-size: clamp(4px, 1.7vw, 7px); letter-spacing: -0.3px; }
   .card-word-xlong { font-size: clamp(3px, 1.4vw, 5.5px); letter-spacing: -0.5px; }
-  .card.spy-red::after, .card.spy-blue::after, .card.spy-bystander::after { width: 6px; height: 6px; top: 3px; left: 3px; }
+  .card.spy-red::after, .card.spy-blue::after, .card.spy-passive::after { width: 6px; height: 6px; top: 3px; left: 3px; }
   .card.spy-death_red::after, .card.spy-death_blue::after { font-size: 11px; top: 2px; left: 3px; }
   .card-reveal-icon { bottom: 2px; right: 2px; }
   .card-reveal-icon svg { width: 14px; height: 14px; }
