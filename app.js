@@ -912,42 +912,67 @@ function handleCardClick(index) {
     return;
   }
 
-  // Local mode
-  card.revealed = true;
-
-  // Add flip animation to the clicked card element
+  // Local mode — animate the flip, then process the result
   const cardEl = gameBoard.children[index];
-  if (cardEl) cardEl.classList.add("card-flipping");
+  if (!cardEl) return;
 
-  // Check death cards
-  if (card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE) {
-    const deathBelongsTo = card.type === CARD_TYPE.DEATH_RED ? "red" : "blue";
-    if (gameState.currentTeam === deathBelongsTo) {
-      // Team picked their own death card — they lose!
-      const winner = gameState.currentTeam === "red" ? "blue" : "red";
-      renderAll();
-      setTimeout(() => endGame(winner, `${gameState.currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`), 1200);
-      return;
-    } else {
-      // Opposing team picked this death card — show it, then end turn
-      renderAll();
-      setTimeout(() => endTurn(), 1200);
+  // Disable further clicks during animation
+  cardEl.style.pointerEvents = "none";
+  cardEl.classList.add("card-flip-out");
+
+  // At the midpoint of the flip (card is edge-on/invisible), reveal the color
+  setTimeout(() => {
+    card.revealed = true;
+    // Update this card's classes to show the revealed color
+    cardEl.className = "card revealed revealed-" + card.type;
+    // Re-add the word
+    const wordEl = cardEl.querySelector(".card-word");
+    if (wordEl && card.word.length > 8) wordEl.classList.add("card-word-long");
+    if (wordEl && card.word.length > 10) wordEl.classList.add("card-word-xlong");
+    // Add reveal icon
+    const isDeath = card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE;
+    const iconEl = document.createElement("div");
+    iconEl.className = "card-reveal-icon";
+    iconEl.innerHTML = isDeath
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`
+      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+    cardEl.appendChild(iconEl);
+    // Flip back in with color visible
+    cardEl.classList.add("card-flip-in");
+
+    // Update scores
+    if (card.type === CARD_TYPE.RED) gameState.redRemaining--;
+    if (card.type === CARD_TYPE.BLUE) gameState.blueRemaining--;
+    renderScores();
+  }, 250);
+
+  // After full flip completes, process the game logic
+  setTimeout(() => {
+    // Check death cards
+    if (card.type === CARD_TYPE.DEATH_RED || card.type === CARD_TYPE.DEATH_BLUE) {
+      const deathBelongsTo = card.type === CARD_TYPE.DEATH_RED ? "red" : "blue";
+      if (gameState.currentTeam === deathBelongsTo) {
+        const winner = gameState.currentTeam === "red" ? "blue" : "red";
+        setTimeout(() => endGame(winner, `${gameState.currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`), 800);
+      } else {
+        setTimeout(() => endTurn(), 800);
+      }
       return;
     }
-  }
 
-  if (card.type === CARD_TYPE.RED) gameState.redRemaining--;
-  if (card.type === CARD_TYPE.BLUE) gameState.blueRemaining--;
-  if (gameState.redRemaining === 0) { renderAll(); setTimeout(() => endGame("red", "Red Team found all their agents!"), 1200); return; }
-  if (gameState.blueRemaining === 0) { renderAll(); setTimeout(() => endGame("blue", "Blue Team found all their agents!"), 1200); return; }
-  if (card.type === gameState.currentTeam) {
-    if (gameState.guessesRemaining !== Infinity) gameState.guessesRemaining--;
-    if (gameState.guessesRemaining === 0) { renderAll(); setTimeout(() => endTurn(), 1200); return; }
-    renderAll(); return;
-  }
-  // Wrong card (passive or opponent's card) — reveal first, then end turn after delay
-  renderAll();
-  setTimeout(() => endTurn(), 1200);
+    if (gameState.redRemaining === 0) { setTimeout(() => endGame("red", "Red Team found all their agents!"), 800); return; }
+    if (gameState.blueRemaining === 0) { setTimeout(() => endGame("blue", "Blue Team found all their agents!"), 800); return; }
+
+    if (card.type === gameState.currentTeam) {
+      // Correct guess
+      if (gameState.guessesRemaining !== Infinity) gameState.guessesRemaining--;
+      if (gameState.guessesRemaining === 0) { setTimeout(() => endTurn(), 800); return; }
+      renderTurnBar();
+      return;
+    }
+    // Wrong card — end turn after a pause
+    setTimeout(() => endTurn(), 800);
+  }, 500);
 }
 
 function giveClue() {
