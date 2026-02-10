@@ -1,6 +1,6 @@
 // ==================== WORD LIST (450 words) ====================
 const WORDLIST = [
-  "Alaska","Alien","Ally","Amsterdam","Anchor","Angel","Arctic","Armor","Arrow","Asgard",
+  "Alaska","Alien","Ally","Amsterdam","Anchor","Angel","Arctic","Armor","Arrow","Valhalla",
   "Athens","Axe","Baby","Backpack","Bacon","Balloon","Band","Bandit","Bank","Bar",
   "Barrel","Basket","Bat","Bath","Bathtub","Bee","Beef","Beer","Bench","Bet",
   "Bicycle","Bird","Blanket","Blast","Block","Bluff","Board","Bomb","Bond","Bone",
@@ -13,7 +13,7 @@ const WORDLIST = [
   "Cow","Cowboy","Craft","Cream","Coup","Crow","Crown","Cuba","Cup","Curse",
   "Darwin","Dawn","Debt","Deer","Deport","Desk","Diamond","Dolphin","Door","Dragon",
   "Dress","Drift","Drink","Drum","Dublin","Duel","Duke","Dust","Ear","Earth",
-  "Echo","Edge","Egg","Elbow","Engine","Envelope","Falcon","Family","Farmer","Fate",
+  "Echo","Edge","Egg","Elbow","Engine","Envelope","Turtle","Family","Farmer","Fate",
   "Feast","Film","Fire","Flag","Flame","Flash","Floor","Flower","Fog","Fold",
   "Food","Football","Fox","Fraud","Fridge","Frost","Galileo","Garage","Garden","Garlic",
   "Gas","Gear","Ghost","Giant","Gift","Glacier","Globe","Glove","Goat","Gold",
@@ -26,7 +26,7 @@ const WORDLIST = [
   "Market","Mask","Meat","Medal","Microscope","Mine","Miner","Miracle","Mirror","Money",
   "Monk","Monkey","Mountain","Mouse","Nail","Napoleon","Neck","Needle","Neighbor","Nepal",
   "Net","Newspaper","Night","Nightmare","Nose","Note","Office","Onion","Opera","Orchard",
-  "Otter","Owl","Pacific","Paint","Pan","Paper","Paris","Parrot","Party","Path",
+  "Penguin","Owl","Pacific","Paint","Pan","Paper","Paris","Parrot","Party","Path",
   "Peace","Peach","Peasant","Pencil","Phone","Photo","Piano","Pillow","Pin","Pirate",
   "Pizza","Plane","Plastic","Plate","Pluto","Pocket","Poison","Police","Pond","Pool",
   "Post","Poster","Potato","Press","Pride","Quiet","Quest","Rabbit","Race","Racket",
@@ -686,6 +686,8 @@ function renderBoard() {
 
     const wordEl = document.createElement("span");
     wordEl.className = "card-word";
+    if (card.word.length > 8) wordEl.classList.add("card-word-long");
+    if (card.word.length > 10) wordEl.classList.add("card-word-xlong");
     wordEl.textContent = card.word;
     cardEl.appendChild(wordEl);
 
