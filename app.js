@@ -164,6 +164,14 @@ const inviteFromUser = $("#inviteFromUser");
 const inviteAcceptBtn = $("#inviteAcceptBtn");
 const inviteDeclineBtn = $("#inviteDeclineBtn");
 
+// Nickname (guest) modal
+const nicknameModal = $("#nicknameModal");
+const nicknameModalClose = $("#nicknameModalClose");
+const nicknameForm = $("#nicknameForm");
+const nicknameInput = $("#nicknameInput");
+const nicknameError = $("#nicknameError");
+const nicknameSignInBtn = $("#nicknameSignInBtn");
+
 // ==================== UTILITY FUNCTIONS ====================
 function shuffle(arr) {
   const a = [...arr];
@@ -284,9 +292,62 @@ function startQuickLocalGame() {
   showCountdown(firstTeam, () => renderAll());
 }
 
+// ==================== GUEST (ANONYMOUS) AUTH ====================
+let pendingGuestAction = null; // "create" or "join"
+let pendingJoinCode = null;
+let isGuest = false;
+
+function promptGuestNickname(action, joinCode) {
+  pendingGuestAction = action;
+  pendingJoinCode = joinCode || null;
+  nicknameError.textContent = "";
+  nicknameInput.value = "";
+  nicknameModal.classList.add("active");
+}
+
+nicknameModalClose.addEventListener("click", () => {
+  nicknameModal.classList.remove("active");
+  pendingGuestAction = null;
+  pendingJoinCode = null;
+});
+
+nicknameSignInBtn.addEventListener("click", () => {
+  nicknameModal.classList.remove("active");
+  authModal.classList.add("active");
+});
+
+nicknameForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const nickname = nicknameInput.value.trim();
+  if (nickname.length < 2 || nickname.length > 15) {
+    nicknameError.textContent = "Nickname must be 2-15 characters";
+    return;
+  }
+  nicknameError.textContent = "";
+  try {
+    await window.auth.signInAnonymously();
+    // Set guest profile (onAuthStateChanged will pick up isAnonymous)
+    isGuest = true;
+    currentUserProfile = { username: nickname, uid: window.auth.currentUser.uid };
+    profileBtn.classList.add("logged-in");
+    profileIcon.textContent = nickname.charAt(0).toUpperCase();
+    nicknameModal.classList.remove("active");
+    // Execute the pending action
+    if (pendingGuestAction === "create") {
+      createRoom();
+    } else if (pendingGuestAction === "join" && pendingJoinCode) {
+      joinRoom(pendingJoinCode);
+    }
+    pendingGuestAction = null;
+    pendingJoinCode = null;
+  } catch (err) {
+    nicknameError.textContent = "Could not connect. Try again.";
+  }
+});
+
 // ==================== ONLINE ROOM MANAGEMENT ====================
 async function createRoom() {
-  if (!currentUser) { authModal.classList.add("active"); return; }
+  if (!currentUser || !currentUserProfile) { promptGuestNickname("create"); return; }
   const code = generateRoomCode();
   const firstTeam = Math.random() < 0.5 ? "red" : "blue";
   const board = generateBoard(firstTeam, gameVariant);
@@ -330,8 +391,9 @@ async function createRoom() {
 }
 
 async function joinRoom(code) {
-  if (!currentUser) { authModal.classList.add("active"); return; }
-  code = code.toUpperCase().trim();
+  code = (code || "").toUpperCase().trim();
+  if (!currentUser) { promptGuestNickname("join", code); return; }
+  if (!currentUserProfile) { promptGuestNickname("join", code); return; }
   if (code.length !== 6) { alert("Enter a valid 6-character room code."); return; }
 
   const roomDoc = await window.db.collection("codenamesRooms").doc(code).get();
@@ -960,8 +1022,16 @@ $$(".friends-tab").forEach(tab => {
 });
 
 profileBtn.addEventListener("click", () => {
-  if (currentUser) { friendsPopup.classList.toggle("active"); authModal.classList.remove("active"); }
-  else { authModal.classList.add("active"); friendsPopup.classList.remove("active"); }
+  if (currentUser && !isGuest) {
+    // Full account — show friends popup
+    friendsPopup.classList.toggle("active"); authModal.classList.remove("active");
+  } else if (currentUser && isGuest) {
+    // Guest — offer to sign in for full features
+    authModal.classList.add("active"); friendsPopup.classList.remove("active");
+  } else {
+    // Not signed in — show auth modal
+    authModal.classList.add("active"); friendsPopup.classList.remove("active");
+  }
 });
 authModalClose.addEventListener("click", () => authModal.classList.remove("active"));
 document.addEventListener("click", (e) => {
@@ -1019,9 +1089,10 @@ $("#googleSignInBtn").addEventListener("click", handleGoogleAuth);
 $("#googleSignUpBtn").addEventListener("click", handleGoogleAuth);
 
 signOutBtn.addEventListener("click", async () => {
-  if (currentUser) {
+  if (currentUser && !isGuest) {
     try { await window.db.collection("users").doc(currentUser.uid).update({ online: false, lastSeen: firebase.firestore.FieldValue.serverTimestamp() }); } catch (e) {}
   }
+  isGuest = false;
   if (presenceInterval) { clearInterval(presenceInterval); presenceInterval = null; }
   await window.auth.signOut();
   friendsPopup.classList.remove("active");
@@ -1030,7 +1101,17 @@ signOutBtn.addEventListener("click", async () => {
 // Auth state listener
 window.auth.onAuthStateChanged(async (user) => {
   currentUser = user;
-  if (user) {
+  if (user && user.isAnonymous) {
+    // Guest user — profile was already set by the nickname form
+    isGuest = true;
+    profileBtn.classList.add("logged-in");
+    if (currentUserProfile) {
+      profileIcon.textContent = currentUserProfile.username.charAt(0).toUpperCase();
+    }
+    // No Firestore profile, no friends, no invites for guests
+  } else if (user) {
+    // Full account user
+    isGuest = false;
     profileBtn.classList.add("logged-in");
     const doc = await window.db.collection("users").doc(user.uid).get();
     currentUserProfile = doc.exists ? { uid: user.uid, ...doc.data() } : null;
@@ -1048,6 +1129,8 @@ window.auth.onAuthStateChanged(async (user) => {
       listenToInvites();
     }
   } else {
+    // Signed out
+    isGuest = false;
     profileBtn.classList.remove("logged-in");
     profileIcon.textContent = "Sign in";
     currentUserProfile = null;
