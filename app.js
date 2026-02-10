@@ -9,8 +9,8 @@ const WORDLIST = [
   "Canyon","Captain","Car","Card","Cave","Center","Chain","Charm","Chase","Cheese",
   "Cherry","Chess","Chest","Chicago","Chin","Church","Circle","Clash","Clock","Cloud",
   "Club","Coach","Coast","Cobra","Cocoa","Code","Coffee","Coin","Cold","Comic",
-  "Compass","Computer","Concert","Cookie","Copper","Coral","Corn","Corner","Court","Cove",
-  "Cow","Cowboy","Craft","Cream","Creek","Crow","Crown","Cuba","Cup","Curse",
+  "Compass","Computer","Concert","Cookie","Copper","Coral","Corn","Corner","Court","Creep",
+  "Cow","Cowboy","Craft","Cream","Coup","Crow","Crown","Cuba","Cup","Curse",
   "Darwin","Dawn","Debt","Deer","Deport","Desk","Diamond","Dolphin","Door","Dragon",
   "Dress","Drift","Drink","Drum","Dublin","Duel","Duke","Dust","Ear","Earth",
   "Echo","Edge","Egg","Elbow","Engine","Envelope","Falcon","Family","Farmer","Fate",
@@ -353,7 +353,7 @@ async function createRoom() {
   const board = generateBoard(firstTeam, gameVariant);
 
   const rem = countRemaining(board);
-  await window.db.collection("codenamesRooms").doc(code).set({
+  await window.db.collection("wordHunterRooms").doc(code).set({
     hostId: currentUser.uid,
     phase: "lobby",
     firstTeam,
@@ -372,7 +372,7 @@ async function createRoom() {
   });
 
   // Add self as player
-  await window.db.collection("codenamesRooms").doc(code).collection("players").doc(currentUser.uid).set({
+  await window.db.collection("wordHunterRooms").doc(code).collection("players").doc(currentUser.uid).set({
     uid: currentUser.uid,
     username: currentUserProfile.username,
     team: null,
@@ -396,14 +396,14 @@ async function joinRoom(code) {
   if (!currentUserProfile) { promptGuestNickname("join", code); return; }
   if (code.length !== 6) { alert("Enter a valid 6-character room code."); return; }
 
-  const roomDoc = await window.db.collection("codenamesRooms").doc(code).get();
+  const roomDoc = await window.db.collection("wordHunterRooms").doc(code).get();
   if (!roomDoc.exists) { alert("Room not found."); return; }
 
   const roomData = roomDoc.data();
   if (roomData.phase !== "lobby") { alert("Game already in progress."); return; }
 
   // Add self as player
-  await window.db.collection("codenamesRooms").doc(code).collection("players").doc(currentUser.uid).set({
+  await window.db.collection("wordHunterRooms").doc(code).collection("players").doc(currentUser.uid).set({
     uid: currentUser.uid,
     username: currentUserProfile.username,
     team: null,
@@ -426,7 +426,7 @@ async function leaveRoom() {
   if (playersUnsubscribe) { playersUnsubscribe(); playersUnsubscribe = null; }
   if (currentRoomCode && currentUser) {
     try {
-      await window.db.collection("codenamesRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).delete();
+      await window.db.collection("wordHunterRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).delete();
     } catch (e) {}
   }
   currentRoomCode = null;
@@ -439,7 +439,7 @@ async function leaveRoom() {
 
 function listenToRoom(code) {
   if (roomUnsubscribe) roomUnsubscribe();
-  roomUnsubscribe = window.db.collection("codenamesRooms").doc(code).onSnapshot((doc) => {
+  roomUnsubscribe = window.db.collection("wordHunterRooms").doc(code).onSnapshot((doc) => {
     if (!doc.exists) { leaveRoom(); return; }
     const data = doc.data();
 
@@ -492,7 +492,7 @@ function listenToRoom(code) {
 
 function listenToPlayers(code) {
   if (playersUnsubscribe) playersUnsubscribe();
-  playersUnsubscribe = window.db.collection("codenamesRooms").doc(code).collection("players")
+  playersUnsubscribe = window.db.collection("wordHunterRooms").doc(code).collection("players")
     .onSnapshot((snapshot) => {
       roomPlayers = [];
       snapshot.forEach((doc) => {
@@ -516,7 +516,7 @@ async function pickTeamRole(team, role) {
     if (existing) return; // slot taken
   }
 
-  await window.db.collection("codenamesRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).update({
+  await window.db.collection("wordHunterRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).update({
     team, role,
   });
 }
@@ -537,7 +537,7 @@ async function startOnlineGame() {
   const board = generateBoard(firstTeam, gameVariant);
   const rem = countRemaining(board);
 
-  await window.db.collection("codenamesRooms").doc(currentRoomCode).update({
+  await window.db.collection("wordHunterRooms").doc(currentRoomCode).update({
     phase: "clue",
     firstTeam,
     board: board.map(c => ({ word: c.word, type: c.type, revealed: false })),
@@ -560,7 +560,7 @@ async function onlineGiveClue(word, count) {
   const newHistory = [...(gameState.clueHistory || []), { team: gameState.currentTeam, word, count }];
   const guessesRemaining = count === 0 ? 999 : count + 1; // 999 = unlimited
 
-  await window.db.collection("codenamesRooms").doc(currentRoomCode).update({
+  await window.db.collection("wordHunterRooms").doc(currentRoomCode).update({
     phase: "guess",
     currentClue: { word, count },
     guessesRemaining,
@@ -589,7 +589,7 @@ async function onlineRevealCard(index) {
       updates.winner = winner;
       updates.winReason = `${currentTeam === "red" ? "Red" : "Blue"} Team hit their own Death Card!`;
       updates.phase = "gameOver";
-      await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+      await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
       return;
     } else {
       // Opposing team picked this death card — neutralize it, end turn
@@ -597,7 +597,7 @@ async function onlineRevealCard(index) {
       updates.phase = "clue";
       updates.currentClue = null;
       updates.guessesRemaining = 0;
-      await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+      await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
       return;
     }
   }
@@ -606,13 +606,13 @@ async function onlineRevealCard(index) {
   if (rem.red === 0) {
     updates.gameOver = true; updates.winner = "red";
     updates.winReason = "Red Team found all their agents!"; updates.phase = "gameOver";
-    await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+    await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
     return;
   }
   if (rem.blue === 0) {
     updates.gameOver = true; updates.winner = "blue";
     updates.winReason = "Blue Team found all their agents!"; updates.phase = "gameOver";
-    await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+    await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
     return;
   }
 
@@ -637,12 +637,12 @@ async function onlineRevealCard(index) {
     updates.guessesRemaining = 0;
   }
 
-  await window.db.collection("codenamesRooms").doc(currentRoomCode).update(updates);
+  await window.db.collection("wordHunterRooms").doc(currentRoomCode).update(updates);
 }
 
 async function onlineEndTurn() {
   if (!currentRoomCode) return;
-  await window.db.collection("codenamesRooms").doc(currentRoomCode).update({
+  await window.db.collection("wordHunterRooms").doc(currentRoomCode).update({
     currentTeam: gameState.currentTeam === "red" ? "blue" : "red",
     phase: "clue",
     currentClue: null,
@@ -1367,7 +1367,7 @@ if (howToPlayToggle && howToPlayContent) {
 // Cleanup on leave
 window.addEventListener("beforeunload", () => {
   if (currentRoomCode && currentUser) {
-    try { window.db.collection("codenamesRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).delete(); } catch (e) {}
+    try { window.db.collection("wordHunterRooms").doc(currentRoomCode).collection("players").doc(currentUser.uid).delete(); } catch (e) {}
   }
 });
 
