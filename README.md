@@ -1,6 +1,6 @@
 # WordHunters
 
-A Codenames-inspired online word game where two teams compete to find their hidden words on a shared board. One player on each team is the Guider who sees the key card and gives one-word clues; the rest of the team guesses which words belong to them. Watch out for Death Cards — hit your own and you lose instantly.
+An online word game where two teams compete to find their hidden words on a shared board. One player on each team is the Guider who sees the key card and gives one-word clues; the rest of the team guesses which words belong to them. Watch out for Death Cards — hit your own and you lose instantly.
 
 Play at [wordhuntersonline.com](https://wordhuntersonline.com).
 
