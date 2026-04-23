@@ -8,7 +8,7 @@ Play at [wordhuntersonline.com](https://wordhuntersonline.com).
 
 - **Local play** — pass-and-play on a single device with a countdown timer between turns
 - **Online multiplayer** — create or join rooms with a 6-character code, real-time sync via Firestore
-- **Two game variants** — Classic (2 Death Cards, 9 neutral) and Sudden Death (6 Death Cards, 5 neutral)
+- **Two game variants** — Classic (2 Death Cards (1 per team), 9 neutral) and Sudden Death (6 Death Cards (3 per team), 5 neutral)
 - **Firebase authentication** — email/password, Google sign-in, or play as a guest
 - **Friends system** — search for users, send/accept friend requests, invite friends to your lobby
 - **Clue history** — side menu tracks all clues given during the game
