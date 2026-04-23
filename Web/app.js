@@ -165,6 +165,12 @@ const inviteAcceptBtn = $("#inviteAcceptBtn");
 const inviteDeclineBtn = $("#inviteDeclineBtn");
 
 // ==================== UTILITY FUNCTIONS ====================
+function escapeHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -732,7 +738,7 @@ function renderClueLog() {
   clueLog.innerHTML = gameState.clueHistory.map(e => `
     <div class="clue-log-entry clue-log-${e.team}">
       <span class="clue-log-team">${e.team === "red" ? "R" : "B"}</span>
-      <span class="clue-log-word">${e.word}</span>
+      <span class="clue-log-word">${escapeHtml(e.word)}</span>
       <span class="clue-log-count">${e.count === 0 ? "\u221E" : e.count}</span>
     </div>`).reverse().join("");
 }
